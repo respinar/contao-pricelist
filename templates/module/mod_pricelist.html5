@@ -1,0 +1,59 @@
+
+<div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
+
+  <?php if ($this->headline): ?>
+    <<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
+  <?php endif; ?>
+
+  <p class="description"><?php echo $this->description; ?></p>
+
+  <table class="<?php echo $this->tableClass; ?>">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>عنوان</th>
+			<th>کد</th>
+			<?php foreach ($this->spec as $spec) { ?>
+				<th class="spec"><?php echo $spec[spectitle]; ?> (<?php echo $spec[specunit]; ?>)</th>
+			<?php } ?>
+			<th>توضیحات</th>
+			<th>واحد</th>
+			<?php if ($this->pricelist_retail) { ?>
+			<th>قیمت خرده</th>
+			<?php } ?>
+			<?php if ($this->pricelist_bulk) { ?>
+			<th>قیمت عمده</th>
+			<?php } ?>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach($this->products as $product): ?>
+			<tr>
+				<td><?php echo $product[no] ?></td>
+				<td>
+					<?php if($product[url]) { ?>
+						<a href="<?php echo $product[url]; ?>"><?php echo $product[title] ?></a>
+					<?php } else { ?>
+						<?php echo $product[title] ?>
+					<?php } ?>
+				</td>
+				<td><?php echo $product[code] ?></td>
+
+				<?php foreach ($product[spec] as $spec) { ?>
+					<td class="spec"><?php echo $spec[specvalue]; ?></td>
+				<?php } ?>
+
+				<td><?php echo $product[description] ?></td>
+				<td><?php echo $product[unit] ?></td>
+				<?php if ($this->pricelist_retail) { ?>
+					<td><?php echo $product[price_retail] ?></td>
+				<?php } ?>
+				<?php if ($this->pricelist_bulk) { ?>
+					<td><?php echo $product[price_bulk] ?></td>
+				<?php } ?>
+			</tr>
+		<?php endforeach; ?>
+	</tbody>
+  </table>
+
+</div>
