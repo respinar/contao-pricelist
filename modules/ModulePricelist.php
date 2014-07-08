@@ -63,6 +63,8 @@ class ModulePricelist extends \Module
 	protected function compile()
 	{
 
+	    $this->strTemplate = $this->pricelist_template;
+
 		$intList = $this->pricelist;
 
 		$objList     = $this->Database->prepare("SELECT * FROM tl_pricelist WHERE id=?")->execute($intList);
@@ -71,8 +73,14 @@ class ModulePricelist extends \Module
 		// Return if no Products were found
 		if (!$objProducts->numRows)
 		{
+			$this->Template = new \FrontendTemplate('mod_pricelist_empty');
+			$this->Template->empty = $GLOBALS['TL_LANG']['MSC']['emptyPriceList'];
 			return;
 		}
+
+		$this->Template->description = $objList->description;
+
+		$this->Template->spec = deserialize($objList->spec);
 
 		$objJump = \PageModel::findByPk($objList->jumpTo);
 		$strLink = $this->generateFrontendUrl($objJump->row());
@@ -86,8 +94,6 @@ class ModulePricelist extends \Module
 		{
 
 			$i = $i + 1;
-
-
 
 			$arrProducts[] = array
 			(

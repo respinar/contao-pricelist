@@ -40,5 +40,6 @@ ClassLoader::addClasses(array
  */
 TemplateLoader::addFiles(array
 (
-	'mod_pricelist' => 'system/modules/pricelist/templates',
+	'mod_pricelist'       => 'system/modules/pricelist/templates/module',
+	'mod_pricelist_empty' => 'system/modules/pricelist/templates/module',
 ));

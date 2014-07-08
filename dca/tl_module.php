@@ -15,7 +15,7 @@
  * Add palettes to tl_module
  */
 
-$GLOBALS['TL_DCA']['tl_module']['palettes']['pricelist']   = '{title_legend},name,headline,type;{pricelist},pricelist;{config_legend},pricelist_retail,pricelist_bulk,pricelist_sale,pricelist_stock;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['pricelist']   = '{title_legend},name,headline,type;{pricelist},pricelist;{config_legend},pricelist_retail,pricelist_bulk,pricelist_sale,pricelist_stock;{template_legend:hide},pricelist_template,tableClass;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add fields to tl_module
@@ -61,4 +61,43 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['pricelist_stock'] = array
 	'eval'                    => array('tl_class'=>'w50'),
 	'sql'                     => "char(1) NOT NULL default ''"
 );
+$GLOBALS['TL_DCA']['tl_module']['fields']['pricelist_template'] = array
+(
+	'label'                => &$GLOBALS['TL_LANG']['tl_module']['pricelist_template'],
+	'exclude'              => true,
+	'inputType'            => 'select',
+	'options_callback'     => array('tl_pricelist_template', 'getPriceListTemplates'),
+	'eval'				   => array('tl_class'=>'w50'),
+	'sql'				   => "varchar(64) NOT NULL default ''",
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['tableClass'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['tableClass'],
+	'exclude'                 => true,
+	'inputType'               => 'text',
+	'eval'                    => array('maxlength'=>128, 'tl_class'=>'w50'),
+	'sql'                     => "varchar(255) NOT NULL default ''"
+);
+
+/**
+ * Class tl_pricelist
+ *
+ * Provide miscellaneous methods that are used by the data configuration array.
+ * @copyright  Hamid Abbaszadeh 2014
+ * @author     Hamid Abbaszadeh <http://respinar.com>
+ * @package    PriceList
+ */
+class tl_pricelist_template extends Backend
+{
+
+	/**
+	 * Return all links templates as array
+	 * @param object
+	 * @return array
+	 */
+	public function getPriceListTemplates(DataContainer $dc)
+	{
+		return $this->getTemplateGroup('mod_pricelist', $dc->activeRecord->pid);
+	}
+}
 

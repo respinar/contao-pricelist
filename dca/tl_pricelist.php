@@ -100,7 +100,7 @@ $GLOBALS['TL_DCA']['tl_pricelist'] = array
 	'palettes' => array
 	(
 		'__selector__'                => array('protected'),
-		'default'                     => '{title_legend},title;{currency_legend},currency;{redirect_legend},jumpTo;{protected_legend:hide},protected;'
+		'default'                     => '{title_legend},title;{currency_legend},currency;{redirect_legend},jumpTo;{spec_legend},spec;{description_legend:hide},description;{protected_legend:hide},protected;'
 	),
 
 	// Subpalettes
@@ -147,6 +147,43 @@ $GLOBALS['TL_DCA']['tl_pricelist'] = array
 			'eval'                    => array('mandatory'=>true, 'fieldType'=>'radio'),
 			'sql'                     => "int(10) unsigned NOT NULL default '0'",
 			'relation'                => array('type'=>'hasOne', 'load'=>'eager')
+		),
+		'spec' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist']['spec'],
+			'exclude'                 => true,
+			'sorting'                 => true,
+			'inputType'               => 'multiColumnWizard',
+			'eval'                    => array
+			(
+				'columnFields' => array
+				(
+					'spectitle' => array
+					(
+						'label'       => &$GLOBALS['TL_LANG']['tl_pricelist']['spectitle'],
+						'exclude'     => true,
+						'inputType'   => 'text',
+						'eval'        => array('style'=>'width:280px'),
+					),
+					'specunit' => array
+					(
+						'label'       => &$GLOBALS['TL_LANG']['tl_pricelist']['specunit'],
+						'exclude'     => true,
+						'inputType'   => 'text',
+						'eval'        => array('style'=>'width:280px'),
+					)
+				)
+			),
+			'sql'                     => "blob NULL",
+		),
+		'description' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist']['description'],
+			'exclude'                 => true,
+			'search'                  => true,
+			'inputType'               => 'textarea',
+			'eval'                    => array('rte'=>'tinyMCE'),
+			'sql'                     => "text NULL"
 		),
 		'protected' => array
 		(
