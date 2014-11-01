@@ -18,7 +18,6 @@
     },
     "require": {
         "contao/core": ">=3.2,<4-dev",
-        "contao-community-alliance/composer-installer": "*",
         "menatwork/contao-multicolumnwizard": ">=3.2"
     },
     "autoload": {
