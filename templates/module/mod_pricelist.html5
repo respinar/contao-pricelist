@@ -13,9 +13,6 @@
 			<th>#</th>
 			<th>عنوان</th>
 			<th>کد</th>
-			<?php foreach ($this->spec as $spec) { ?>
-				<th class="spec"><?php echo $spec[spectitle]; ?> (<?php echo $spec[specunit]; ?>)</th>
-			<?php } ?>
 			<th>توضیحات</th>
 			<th>واحد</th>
 			<?php if ($this->pricelist_retail) { ?>
@@ -38,11 +35,6 @@
 					<?php } ?>
 				</td>
 				<td><?php echo $product[code] ?></td>
-
-				<?php foreach ($product[spec] as $spec) { ?>
-					<td class="spec"><?php echo $spec[specvalue]; ?></td>
-				<?php } ?>
-
 				<td><?php echo $product[description] ?></td>
 				<td><?php echo $product[unit] ?></td>
 				<?php if ($this->pricelist_retail) { ?>

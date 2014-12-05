@@ -116,7 +116,19 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'default'                     => '{title_legend},title,code;{price_legend},price_retail,price_bulk,unit,sale;{spec_legend},spec;{description_legend:hide},description;{meta_legend:hide},url;{publish_legend},published,stock'
+		'__selector__'                => array('published'),
+		'default'                     =>   '{title_legend},title,code;
+											{price_legend},price_retail,price_bulk,unit;
+											{status_legend},sale,stock;
+											{description_legend:hide},description;
+											{meta_legend:hide},url;
+											{publish_legend},published'
+	),
+
+	// Subpalettes
+	'subpalettes' => array
+	(
+		'published'                   => 'start,stop'
 	),
 
 	// Fields
@@ -193,6 +205,16 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 			'eval'                    => array('doNotCopy'=>true, 'tl_class'=>'w50 m12'),
 			'sql'                     => "char(1) NOT NULL default ''"
 		),
+		'stock' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['stock'],
+			'exclude'                 => true,
+			'filter'                  => true,
+			'flag'                    => 1,
+			'inputType'               => 'checkbox',
+			'eval'                    => array('doNotCopy'=>true, 'tl_class'=>'w50 m12'),
+			'sql'                     => "char(1) NOT NULL default ''"
+		),
 		'url' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['url'],
@@ -206,41 +228,13 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 			),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
-		'spec' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['spec'],
-			'exclude'                 => true,
-			'sorting'                 => true,
-			'inputType'               => 'multiColumnWizard',
-			'eval'                    => array
-			(
-				'columnFields' => array
-				(
-					'spectitle' => array
-					(
-						'label'       => &$GLOBALS['TL_LANG']['tl_pricelist_product']['spectitle'],
-						'exclude'     => true,
-						'inputType'   => 'text',
-						'eval'        => array('style'=>'width:280px'),
-					),
-					'specvalue' => array
-					(
-						'label'       => &$GLOBALS['TL_LANG']['tl_pricelist_product']['specvalue'],
-						'exclude'     => true,
-						'inputType'   => 'text',
-						'eval'        => array('style'=>'width:280px'),
-					)
-				)
-			),
-			'sql'                     => "blob NULL",
-		),
 		'description' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['description'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'textarea',
-			'eval'                    => array('rte'=>'tinyMCE'),
+			'eval'                    => array('style'=>'height:60px', 'decodeEntities'=>true, 'tl_class'=>'clr'),
 			'sql'                     => "text NULL"
 		),
 		'published' => array
@@ -250,19 +244,25 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 			'filter'                  => true,
 			'flag'                    => 1,
 			'inputType'               => 'checkbox',
-			'eval'                    => array('doNotCopy'=>true, 'tl_class'=>'w50'),
+			'eval'                    => array('doNotCopy'=>true,'submitOnChange'=>true),
 			'sql'                     => "char(1) NOT NULL default ''"
 		),
-		'stock' => array
+		'start' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['stock'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_catalog_product']['start'],
 			'exclude'                 => true,
-			'filter'                  => true,
-			'flag'                    => 1,
-			'inputType'               => 'checkbox',
-			'eval'                    => array('doNotCopy'=>true, 'tl_class'=>'w50'),
-			'sql'                     => "char(1) NOT NULL default ''"
+			'inputType'               => 'text',
+			'eval'                    => array('rgxp'=>'datim', 'datepicker'=>true, 'tl_class'=>'w50 wizard'),
+			'sql'                     => "varchar(10) NOT NULL default ''"
 		),
+		'stop' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_catalog_product']['stop'],
+			'exclude'                 => true,
+			'inputType'               => 'text',
+			'eval'                    => array('rgxp'=>'datim', 'datepicker'=>true, 'tl_class'=>'w50 wizard'),
+			'sql'                     => "varchar(10) NOT NULL default ''"
+		)
 	)
 );
 

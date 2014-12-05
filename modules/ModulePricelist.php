@@ -106,7 +106,6 @@ class ModulePricelist extends \Module
 				'sale'         => $objProducts->sale,
 				'stock'        => $objProducts->stock,
 				'url'          => $objProducts->url,
-				'spec'         => deserialize($objProducts->spec),
 				'description'  => $objProducts->description,
 			);
 		}
