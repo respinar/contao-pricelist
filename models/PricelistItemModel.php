@@ -24,13 +24,13 @@ namespace Pricelist;
  * @author     Hamid Abbaszadeh
  * @package    Devtools
  */
-class PricelistProductModel extends \Model
+class PricelistItemModel extends \Model
 {
 
 	/**
 	 * Name of the table
 	 * @var string
 	 */
-	protected static $strTable = 'tl_pricelist_product';
+	protected static $strTable = 'tl_pricelist_item';
 
 }

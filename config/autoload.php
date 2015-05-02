@@ -3,11 +3,9 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2014 Leo Feyer
+ * Copyright (c) 2005-2015 Leo Feyer
  *
- * @package Pricelist
- * @link    https://contao.org
- * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
+ * @license LGPL-3.0+
  */
 
 
@@ -27,11 +25,12 @@ ClassLoader::addClasses(array
 (
 	// Models
 	'Pricelist\PricelistPriceModel'   => 'system/modules/pricelist/models/PricelistPriceModel.php',
-	'Pricelist\PricelistProductModel' => 'system/modules/pricelist/models/PricelistProductModel.php',
 	'Pricelist\PricelistModel'        => 'system/modules/pricelist/models/PricelistModel.php',
+	'Pricelist\PricelistItemModel'    => 'system/modules/pricelist/models/PricelistItemModel.php',
 
 	// Modules
 	'Pricelist\ModulePricelist'       => 'system/modules/pricelist/modules/ModulePricelist.php',
+	'Pricelist\ModulePricelistReader' => 'system/modules/pricelist/modules/ModulePricelistReader.php',
 ));
 
 
@@ -40,6 +39,5 @@ ClassLoader::addClasses(array
  */
 TemplateLoader::addFiles(array
 (
-	'mod_pricelist'       => 'system/modules/pricelist/templates/module',
-	'mod_pricelist_empty' => 'system/modules/pricelist/templates/module',
+	'mod_pricelist' => 'system/modules/pricelist/templates/module',
 ));

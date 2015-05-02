@@ -15,7 +15,7 @@
  * Add palettes to tl_module
  */
 
-$GLOBALS['TL_DCA']['tl_module']['palettes']['pricelist']   = '{title_legend},name,headline,type;{pricelist},pricelist;{config_legend},pricelist_retail,pricelist_bulk,pricelist_sale,pricelist_stock;{template_legend:hide},pricelist_template,tableClass;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['pricelist']   = '{title_legend},name,headline,type;{pricelist},pricelist;{template_legend:hide},pricelist_template,tableClass;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add fields to tl_module
@@ -29,14 +29,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['pricelist'] = array
 	'eval'                 => array('multiple'=>false, 'mandatory'=>true),
     'sql'                  => "blob NULL"
 );
-$GLOBALS['TL_DCA']['tl_module']['fields']['pricelist_retail'] = array
-(
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['pricelist_retail'],
-	'exclude'                 => true,
-	'inputType'               => 'checkbox',
-	'eval'                    => array('tl_class'=>'w50'),
-	'sql'                     => "char(1) NOT NULL default ''"
-);
+
 $GLOBALS['TL_DCA']['tl_module']['fields']['pricelist_bulk'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['pricelist_retail'],

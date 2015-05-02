@@ -23,7 +23,7 @@ $GLOBALS['TL_DCA']['tl_pricelist'] = array
 	(
 
 		'dataContainer'               => 'Table',
-		'ctable'                      => array('tl_pricelist_product'),
+		'ctable'                      => array('tl_pricelist_item'),
 		'enableVersioning'            => true,
 		'sql' => array
 		(
@@ -65,7 +65,7 @@ $GLOBALS['TL_DCA']['tl_pricelist'] = array
 			'edit' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist']['edit'],
-				'href'                => 'table=tl_pricelist_product',
+				'href'                => 'table=tl_pricelist_item',
 				'icon'                => 'edit.gif'
 			),
 			'editheader' => array
@@ -183,7 +183,7 @@ class tl_pricelist extends Backend {
 
 	public function addPriceCount($row, $label) {
 
-        $objChildren = $this->Database->prepare("SELECT COUNT(*) AS count FROM tl_pricelist_product WHERE pid=?")
+        $objChildren = $this->Database->prepare("SELECT COUNT(*) AS count FROM tl_pricelist_item WHERE pid=?")
                 ->execute($row['id']);
 
         $label .= ' <span style="color:#b3b3b3; padding-left:3px;">' . sprintf('[%s ' . $GLOBALS['TL_LANG']['tl_pricelist']['retail_price'] . ']', $objChildren->count) . '</span>';

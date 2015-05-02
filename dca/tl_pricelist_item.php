@@ -13,9 +13,9 @@
 
 
 /**
- * Table tl_pricelist_product
+ * Table tl_pricelist_item
  */
-$GLOBALS['TL_DCA']['tl_pricelist_product'] = array
+$GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 (
 
 	// Config
@@ -23,8 +23,9 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 	(
 		'dataContainer'               => 'Table',
 		'ptable'                      => 'tl_pricelist',
+		'ctable'                      => array('tl_pricelist_price'),
 		'enableVersioning'            => true,
-		'onsubmit_callback'           => array('tl_pricelist_product','save_price'),
+		//'onsubmit_callback'           => array('tl_pricelist_item','save_price'),
 		'sql' => array
 		(
 			'keys' => array
@@ -44,7 +45,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 			'fields'                  => array('sorting'),
 			'headerFields'            => array('title'),
 			'panelLayout'             => 'search,limit',
-			'child_record_callback'   => array('tl_pricelist_product', 'generateItemRow')
+			'child_record_callback'   => array('tl_pricelist_item', 'generateItemRow')
 		),
 		'global_operations' => array
 		(
@@ -60,53 +61,59 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 		(
 			'edit' => array
 			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_product']['edit'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['edit'],
 				'href'                => 'act=edit',
 				'icon'                => 'edit.gif'
 			),
+			'price' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['edit'],
+				'href'                => 'table=tl_pricelist_price',
+				'icon'                => 'system/modules/pricelist/assets/price.png'
+			),
+			'sale' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['sale'],
+				'icon'                => 'system/modules/pricelist/assets/sale.png',
+				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleSale(this,%s)"',
+				'button_callback'     => array('tl_pricelist_item', 'iconSale')
+			),
+			'stock' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['stock'],
+				'icon'                => 'system/modules/pricelist/assets/stock.png',
+				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleStock(this,%s)"',
+				'button_callback'     => array('tl_pricelist_item', 'iconStock')
+			),
 			'copy' => array
 			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_product']['copy'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['copy'],
 				'href'                => 'act=paste&amp;mode=copy',
 				'icon'                => 'copy.gif'
 			),
 			'cut' => array
 			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_product']['cut'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['cut'],
 				'href'                => 'act=paste&amp;mode=cut',
 				'icon'                => 'cut.gif'
 			),
 			'delete' => array
 			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_product']['delete'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['delete'],
 				'href'                => 'act=delete',
 				'icon'                => 'delete.gif',
 				'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
 			),
 			'toggle' => array
 			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_product']['toggle'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['toggle'],
 				'icon'                => 'visible.gif',
 				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-				'button_callback'     => array('tl_pricelist_product', 'toggleIcon')
-			),
-			'sale' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_product']['sale'],
-				'icon'                => 'system/modules/pricelist/assets/sale.png',
-				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleSale(this,%s)"',
-				'button_callback'     => array('tl_pricelist_product', 'iconSale')
-			),
-			'stock' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_product']['stock'],
-				'icon'                => 'system/modules/pricelist/assets/stock.png',
-				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleStock(this,%s)"',
-				'button_callback'     => array('tl_pricelist_product', 'iconStock')
+				'button_callback'     => array('tl_pricelist_item', 'toggleIcon')
 			),
 			'show' => array
 			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_product']['show'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['show'],
 				'href'                => 'act=show',
 				'icon'                => 'show.gif'
 			)
@@ -118,8 +125,8 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 	(
 		'__selector__'                => array('published'),
 		'default'                     =>   '{title_legend},title,code;
-											{price_legend},price_retail,price_bulk,unit;
 											{status_legend},sale,stock;
+											{unit_legend},unit;
 											{description_legend:hide},description;
 											{meta_legend:hide},url;
 											{publish_legend},published'
@@ -140,6 +147,8 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 		),
 		'pid' => array
 		(
+			'foreignKey'              => 'tl_pricelist.title',
+			'relation'                => array('type'=>'belongsTo', 'load'=>'eager'),
 			'sql'                     => "int(10) unsigned NOT NULL default '0'"
 		),
 		'sorting' => array
@@ -152,7 +161,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 		),
 		'title' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['title'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['title'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
@@ -161,34 +170,16 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 		),
 		'code' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['code'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['code'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>true, 'rgxp'=>'alias','unique'=>true,'maxlength'=>128, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(128) NOT NULL default ''"
 		),
-		'price_retail' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['price_retail'],
-			'exclude'                 => true,
-			'search'                  => true,
-			'inputType'               => 'text',
-			'eval'                    => array('maxlength'=>128, 'tl_class'=>'w50'),
-			'sql'                     => "varchar(255) NOT NULL default ''"
-		),
-		'price_bulk' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['price_bulk'],
-			'exclude'                 => true,
-			'search'                  => true,
-			'inputType'               => 'text',
-			'eval'                    => array('maxlength'=>128, 'tl_class'=>'w50'),
-			'sql'                     => "varchar(255) NOT NULL default ''"
-		),
 		'unit' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['unit'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['unit'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
@@ -197,7 +188,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 		),
 		'sale' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['sale'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['sale'],
 			'exclude'                 => true,
 			'filter'                  => true,
 			'flag'                    => 1,
@@ -207,7 +198,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 		),
 		'stock' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['stock'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['stock'],
 			'exclude'                 => true,
 			'filter'                  => true,
 			'flag'                    => 1,
@@ -217,20 +208,20 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 		),
 		'url' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['url'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['url'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
 			'eval'                    => array('rgxp'=>'url', 'decodeEntities'=>true, 'maxlength'=>255, 'fieldType'=>'radio', 'tl_class'=>'w50 wizard'),
 			'wizard' => array
 			(
-				array('tl_pricelist_product', 'pagePicker')
+				array('tl_pricelist_item', 'pagePicker')
 			),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'description' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['description'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['description'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'textarea',
@@ -239,7 +230,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 		),
 		'published' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_product']['published'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['published'],
 			'exclude'                 => true,
 			'filter'                  => true,
 			'flag'                    => 1,
@@ -249,7 +240,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 		),
 		'start' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_catalog_product']['start'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['start'],
 			'exclude'                 => true,
 			'inputType'               => 'text',
 			'eval'                    => array('rgxp'=>'datim', 'datepicker'=>true, 'tl_class'=>'w50 wizard'),
@@ -257,7 +248,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
 		),
 		'stop' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_catalog_product']['stop'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['stop'],
 			'exclude'                 => true,
 			'inputType'               => 'text',
 			'eval'                    => array('rgxp'=>'datim', 'datepicker'=>true, 'tl_class'=>'w50 wizard'),
@@ -275,7 +266,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_product'] = array
  * @author     Leo Feyer <https://contao.org>
  * @package    Core
  */
-class tl_pricelist_product extends Backend
+class tl_pricelist_item extends Backend
 {
 	/**
 	 * Return the link picker wizard
@@ -294,7 +285,7 @@ class tl_pricelist_product extends Backend
 	 */
 	public function generateItemRow($arrRow)
 	{
-		return '<div style="direction:rtl;text-align:left;">[خرده: '.$arrRow['price_retail'].' ریال] - [عمده: '.$arrRow['price_bulk'].' ریال] '. $arrRow['title'] .'</div>';
+		return '<div style="direction:rtl;text-align:left;">'. $arrRow['title'] .'</div>';
 	}
 
 	public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
@@ -337,12 +328,12 @@ class tl_pricelist_product extends Backend
 		//	$this->redirect('contao/main.php?act=error');
 		//}
 
-		$this->createInitialVersion('tl_pricelist_product', $intId);
+		$this->createInitialVersion('tl_pricelist_item', $intId);
 
 		// Trigger the save_callback
-		if (is_array($GLOBALS['TL_DCA']['tl_pricelist_product']['fields']['published']['save_callback']))
+		if (is_array($GLOBALS['TL_DCA']['tl_pricelist_item']['fields']['published']['save_callback']))
 		{
-			foreach ($GLOBALS['TL_DCA']['tl_pricelist_product']['fields']['published']['save_callback'] as $callback)
+			foreach ($GLOBALS['TL_DCA']['tl_pricelist_item']['fields']['published']['save_callback'] as $callback)
 			{
 				$this->import($callback[0]);
 				$blnVisible = $this->$callback[0]->$callback[1]($blnVisible, $this);
@@ -350,10 +341,10 @@ class tl_pricelist_product extends Backend
 		}
 
 		// Update the database
-		$this->Database->prepare("UPDATE tl_pricelist_product SET tstamp=". time() .", published='" . ($blnVisible ? 1 : '') . "' WHERE id=?")
+		$this->Database->prepare("UPDATE tl_pricelist_item SET tstamp=". time() .", published='" . ($blnVisible ? 1 : '') . "' WHERE id=?")
 					   ->execute($intId);
 
-		$this->createNewVersion('tl_pricelist_product', $intId);
+		$this->createNewVersion('tl_pricelist_item', $intId);
 
 	}
 
@@ -397,12 +388,12 @@ class tl_pricelist_product extends Backend
 		//	$this->redirect('contao/main.php?act=error');
 		//}
 
-		$this->createInitialVersion('tl_pricelist_product', $intId);
+		$this->createInitialVersion('tl_pricelist_item', $intId);
 
 		// Trigger the save_callback
-		if (is_array($GLOBALS['TL_DCA']['tl_pricelist_product']['fields']['sale']['save_callback']))
+		if (is_array($GLOBALS['TL_DCA']['tl_pricelist_item']['fields']['sale']['save_callback']))
 		{
-			foreach ($GLOBALS['TL_DCA']['tl_pricelist_product']['fields']['sale']['save_callback'] as $callback)
+			foreach ($GLOBALS['TL_DCA']['tl_pricelist_item']['fields']['sale']['save_callback'] as $callback)
 			{
 				$this->import($callback[0]);
 				$blnSale = $this->$callback[0]->$callback[1]($blnSale, $this);
@@ -410,10 +401,10 @@ class tl_pricelist_product extends Backend
 		}
 
 		// Update the database
-		$this->Database->prepare("UPDATE tl_pricelist_product SET tstamp=". time() .", sale='" . ($blnSale ? 1 : '') . "' WHERE id=?")
+		$this->Database->prepare("UPDATE tl_pricelist_item SET tstamp=". time() .", sale='" . ($blnSale ? 1 : '') . "' WHERE id=?")
 					   ->execute($intId);
 
-		$this->createNewVersion('tl_pricelist_product', $intId);
+		$this->createNewVersion('tl_pricelist_item', $intId);
 	}
 
 
@@ -460,12 +451,12 @@ class tl_pricelist_product extends Backend
 		//	$this->redirect('contao/main.php?act=error');
 		//}
 
-		$this->createInitialVersion('tl_pricelist_product', $intId);
+		$this->createInitialVersion('tl_pricelist_item', $intId);
 
 		// Trigger the save_callback
-		if (is_array($GLOBALS['TL_DCA']['tl_pricelist_product']['fields']['stock']['save_callback']))
+		if (is_array($GLOBALS['TL_DCA']['tl_pricelist_item']['fields']['stock']['save_callback']))
 		{
-			foreach ($GLOBALS['TL_DCA']['tl_pricelist_product']['fields']['stock']['save_callback'] as $callback)
+			foreach ($GLOBALS['TL_DCA']['tl_pricelist_item']['fields']['stock']['save_callback'] as $callback)
 			{
 				$this->import($callback[0]);
 				$blnStock = $this->$callback[0]->$callback[1]($blnStock, $this);
@@ -473,10 +464,10 @@ class tl_pricelist_product extends Backend
 		}
 
 		// Update the database
-		$this->Database->prepare("UPDATE tl_pricelist_product SET tstamp=". time() .", stock='" . ($blnStock ? 1 : '') . "' WHERE id=?")
+		$this->Database->prepare("UPDATE tl_pricelist_item SET tstamp=". time() .", stock='" . ($blnStock ? 1 : '') . "' WHERE id=?")
 					   ->execute($intId);
 
-		$this->createNewVersion('tl_pricelist_product', $intId);
+		$this->createNewVersion('tl_pricelist_item', $intId);
 	}
 
 	public function save_price($dc)
