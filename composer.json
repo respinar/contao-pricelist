@@ -1,24 +1,24 @@
 {
-    "name": "respinar/pricelist",
-    "description":"Price list module for Contao",
-    "keywords":["contao", "price","list"],
+    "name": "respinar/contao-pricelist",
+    "description": "Price list module for Contao",
+    "keywords": ["contao", "price", "list"],
     "type": "contao-module",
-    "homepage":"https://github.com/respinar/pricelist",
-    "license":"LGPL-3.0+",
-    "authors":[
+    "homepage": "https://github.com/respinar/contao-pricelist",
+    "license": "LGPL-3.0+",
+    "authors": [
         {
-            "name":"Hamid Abbaszadeh",
-            "email":"info@respinar.com",
-            "homepage":"http://respinar.org",
-            "role":"Developer"
+            "name": "Hamid Abbaszadeh",
+            "email": "info@respinar.com",
+            "homepage": "http://respinar.com",
+            "role": "Developer"
         }
     ],
-    "support":{
-        "issues":"https://github.com/respinar/pricelist/issues"
+    "support": {
+        "issues": "https://github.com/respinar/contao-pricelist/issues"
     },
     "require": {
-        "php":">=5.3.2",
-        "contao/core":">=3.2,<4-dev",
+        "php": ">=5.3.2",
+        "contao/core": ">=3.2,<4-dev",
         "contao-community-alliance/composer-plugin": "~2.0"
     },
     "autoload": {
