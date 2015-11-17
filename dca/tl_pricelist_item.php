@@ -199,6 +199,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 		'stock' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['stock'],
+			'default'                 => true,
 			'exclude'                 => true,
 			'filter'                  => true,
 			'flag'                    => 1,
@@ -413,9 +414,9 @@ class tl_pricelist_item extends Backend
 
 	public function iconStock($row, $href, $label, $title, $icon, $attributes)
 	{
-		if (strlen($this->Input->get('sid')))
+		if (strlen($this->Input->get('kid')))
 		{
-			$this->toggleStock($this->Input->get('sid'), ($this->Input->get('state') == 1));
+			$this->toggleStock($this->Input->get('kid'), ($this->Input->get('state') == 1));
 			$this->redirect($this->getReferer());
 		}
 
@@ -425,7 +426,7 @@ class tl_pricelist_item extends Backend
 		//	return '';
 		//}
 
-		$href .= '&amp;sid='.$row['id'].'&amp;state='.($row['stock'] ? '' : 1);
+		$href .= '&amp;kid='.$row['id'].'&amp;state='.($row['stock'] ? '' : 1);
 
 		if (!$row['stock'])
 		{
