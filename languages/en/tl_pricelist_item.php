@@ -16,14 +16,15 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_pricelist_item']['title']        = array('Title', 'Please enter the item title.');
-$GLOBALS['TL_LANG']['tl_pricelist_item']['code']         = array('Code', 'Please enter the item code.');
+$GLOBALS['TL_LANG']['tl_pricelist_item']['code']         = array('Code (Model)', 'Please enter the item code or model.');
 $GLOBALS['TL_LANG']['tl_pricelist_item']['unit']         = array('Unit', 'Please enter the unit.');
-$GLOBALS['TL_LANG']['tl_pricelist_item']['stock']        = array('Stock', 'Please enter the .');
+$GLOBALS['TL_LANG']['tl_pricelist_item']['stock']        = array('Stock', 'Product exist in stock.');
+$GLOBALS['TL_LANG']['tl_pricelist_item']['sale']         = array('Sale', 'Product is in sale.');
 $GLOBALS['TL_LANG']['tl_pricelist_item']['url']          = array('URL', 'Please enter the URL.');
 $GLOBALS['TL_LANG']['tl_pricelist_item']['description']  = array('Description', 'Please enter the .');
 $GLOBALS['TL_LANG']['tl_pricelist_item']['published']    = array('Publish product', 'Make the item publicly visible on the website.');
 $GLOBALS['TL_LANG']['tl_pricelist_item']['start']        = array('Show from', 'Do not show the item on the website before this day.');
-$GLOBALS['TL_LANG']['tl_pricelist_item']['srop']         = array('Show until', 'Do not show the item on the website on and after this day.');
+$GLOBALS['TL_LANG']['tl_pricelist_item']['stop']         = array('Show until', 'Do not show the item on the website on and after this day.');
 
 
 /**
