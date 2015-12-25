@@ -133,7 +133,7 @@ class tl_pricelist_price extends Backend
 	 */
 	public function listPrices($arrRow)
 	{
-		return '<div class="tl_content_left">' . $arrRow['price'] . ' <span style="color:#b3b3b3;padding-left:3px">[' . Date::parse(Config::get('datimFormat'), $arrRow['date']) . ']</span></div>';
+		return '<div class="tl_content_left">' . $arrRow['price'] . ' <span style="color:#b3b3b3;padding-left:3px">[' . Date::parse(Config::get('datimFormat'), $arrRow['tstamp']) . ']</span></div>';
 	}
 
 	/**
