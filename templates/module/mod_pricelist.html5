@@ -11,11 +11,13 @@
 	<thead>
 		<tr>
 			<th>#</th>
-			<th>عنوان</th>
-			<th>کد</th>
-			<th>توضیحات</th>
-			<th>واحد</th>
-			<th>قیمت خرده</th>
+			<th><?= $this->text_title ?></th>
+            <th><?= $this->text_model ?></th>
+			<th><?= $this->text_SKU ?></th>
+			<th><?= $this->text_description ?></th>
+            <th><?= $this->text_amount ?></th>
+			<th><?= $this->text_unit ?></th>
+			<th><?= $this->text_price ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -29,8 +31,10 @@
 						<?= $item[title] ?>
 					<?php } ?>
 				</td>
+                <td><?= $item[model] ?></td>
 				<td><?= $item[sku] ?></td>
 				<td><?= $item[description] ?></td>
+                <td><?= $item[amount] ?></td>
 				<td><?= $item[unit] ?></td>
 				<td><?= $item[price] ?></td>				
 			</tr>
