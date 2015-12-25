@@ -69,6 +69,15 @@ class ModulePricelist extends \Module
 	 */
 	protected function compile()
 	{
+        
+        $this->Template->text_title       = $GLOBALS['TL_LANG']['MSC']['price_title'];
+        $this->Template->text_model       = $GLOBALS['TL_LANG']['MSC']['price_model'];
+        $this->Template->text_SKU         = $GLOBALS['TL_LANG']['MSC']['price_SKU'];
+        $this->Template->text_description = $GLOBALS['TL_LANG']['MSC']['price_description'];
+        $this->Template->text_amount      = $GLOBALS['TL_LANG']['MSC']['price_amount'];
+        $this->Template->text_unit        = $GLOBALS['TL_LANG']['MSC']['price_unit'];
+        $this->Template->text_price       = $GLOBALS['TL_LANG']['MSC']['price_price'];
+        
 
 	    $this->strTemplate = $this->pricelist_template;
 
@@ -104,8 +113,11 @@ class ModulePricelist extends \Module
 				'no'           => $i,
 				'title'        => $objItems->title,
 				'sku'          => $objItems->sku,
+                'model'        => $objItems->model,
 				'price'        => $objItems->price ? $objItems->price .' '. $objPricelist->currency : '<a href='.$strLink.'>تماس بگیرید</a>',
+                'date'         => $objItems->tstamp,
 				'unit'         => $objItems->unit,
+                'amount'       => $objItems->amount,
 				'sale'         => $objItems->sale,
 				'stock'        => $objItems->stock,
 				'url'          => $objItems->url,
