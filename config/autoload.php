@@ -30,7 +30,6 @@ ClassLoader::addClasses(array
 
 	// Modules
 	'Pricelist\ModulePricelist'       => 'system/modules/pricelist/modules/ModulePricelist.php',
-	'Pricelist\ModulePricelistReader' => 'system/modules/pricelist/modules/ModulePricelistReader.php',
 ));
 
 

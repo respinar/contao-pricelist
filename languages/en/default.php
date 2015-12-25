@@ -15,4 +15,4 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC']['empty'] = 'There are not items!';
+$GLOBALS['TL_LANG']['MSC']['emptyPriceList'] = 'There are not items!';
