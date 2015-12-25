@@ -514,7 +514,8 @@ class tl_pricelist_item extends Backend
 			return;
 		}
 
-		$this->Database->execute("INSERT INTO `tl_pricelist_price` (`pid`,`tstamp`,`price`) VALUES (".$dc->activeRecord->id.",NOW(),".$dc->activeRecord->price.")");
+		$this->Database->execute("INSERT INTO `tl_pricelist_price` (`pid`,`tstamp`,`price`) VALUES (".$dc->activeRecord->id.",".time().",".$dc->activeRecord->price.")");
+        
 		return;
 	}
 
