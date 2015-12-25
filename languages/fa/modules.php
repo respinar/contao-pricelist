@@ -11,13 +11,8 @@
  * @copyright 2014
  */
 
+$GLOBALS['TL_LANG']['FMD']['pricelist']['0'] = 'لیست قیمت';
+$GLOBALS['TL_LANG']['FMD']['pricelist']['1'] = 'یک فهرست قیمت به برگه اضافه می‌کند.';
+$GLOBALS['TL_LANG']['MOD']['pricelist']['0'] = 'لیست قیمت';
+$GLOBALS['TL_LANG']['MOD']['pricelist']['1'] = 'مدیریت لیست قیمت‌ها';
 
-/**
- * Back end modules
- */
-$GLOBALS['TL_LANG']['MOD']['pricelist'] = array('لیست قیمت', 'Manage price lists');
-
-/**
- * Front end modules
- */
-$GLOBALS['TL_LANG']['FMD']['pricelist'] = array('لیست قیمت', '');
