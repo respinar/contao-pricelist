@@ -22,6 +22,10 @@ $GLOBALS['TL_DCA']['tl_pricelist_price'] = array
 	'config' => array
 	(
 		'dataContainer'               => 'Table',
+        'closed'                      => true,
+        'notEditable'                 => true,
+        'notCopyable'                 => true,
+        'doNotCopyRecords'            => true,
 		'ptable'                      => 'tl_pricelist_item',
 		'enableVersioning'            => true,
 		'sql' => array
@@ -40,10 +44,11 @@ $GLOBALS['TL_DCA']['tl_pricelist_price'] = array
 		'sorting' => array
 		(
 			'mode'                    => 4,
-			'fields'                  => array('date DESC'),
-			'headerFields'            => array('title'),
-			'panelLayout'             => 'filter;sort,search,limit',
+			'fields'                  => array('tstamp DESC'),
+            'headerFields'            => array('title', 'sku', 'unit'),
+			'panelLayout'             => 'limit',
 			'child_record_callback'   => array('tl_pricelist_price', 'listPrices'),
+			'child_record_class'      => 'no_padding'
 		),
 		'global_operations' => array
 		(
@@ -57,25 +62,12 @@ $GLOBALS['TL_DCA']['tl_pricelist_price'] = array
 		),
 		'operations' => array
 		(
-			'edit' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_price']['edit'],
-				'href'                => 'act=edit',
-				'icon'                => 'edit.gif'
-			),
 			'delete' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_price']['delete'],
 				'href'                => 'act=delete',
 				'icon'                => 'delete.gif',
 				'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
-			),
-			'toggle' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_price']['toggle'],
-				'icon'                => 'visible.gif',
-				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-				'button_callback'     => array('tl_pricelist_price', 'toggleIcon')
 			),
 			'show' => array
 			(
@@ -89,7 +81,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_price'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'default'                     => '{price_legend},price,date;{publish_legend},published'
+		'default'                     => '{price_legend},price,date;'
 	),
 
 	// Fields
@@ -107,39 +99,22 @@ $GLOBALS['TL_DCA']['tl_pricelist_price'] = array
 		),
 		'tstamp' => array
 		(
-			'sql'                     => "int(10) unsigned NOT NULL default '0'"
+            'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist']['tstamp'],
+            'filter'                  => true,
+			'sorting'                 => true,
+			'flag'                    => 6,
+			'sql'                     => "int(10) unsigned NOT NULL default '0'",
+            'eval'                    => array('rgxp'=>'date', 'tl_class'=>'w50'),
 		),
 		'price' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist']['price_retail'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist']['price'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>true,'maxlength'=>128, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
-		'date' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_price']['date'],
-			'default'                 => time(),
-			'exclude'                 => true,
-			'filter'                  => true,
-			'sorting'                 => true,
-			'flag'                    => 8,
-			'inputType'               => 'text',
-			'eval'                    => array('rgxp'=>'date', 'doNotCopy'=>true, 'datepicker'=>true, 'tl_class'=>'w50 wizard'),
-			'sql'                     => "int(10) unsigned NOT NULL default '0'"
-		),
-		'published' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_price']['published'],
-			'exclude'                 => true,
-			'filter'                  => true,
-			'flag'                    => 1,
-			'inputType'               => 'checkbox',
-			'eval'                    => array('doNotCopy'=>true,'submitOnChange'=>true),
-			'sql'                     => "char(1) NOT NULL default ''"
-		)
 	)
 );
 
