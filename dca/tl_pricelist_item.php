@@ -94,7 +94,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['edit'],
 				'href'                => 'table=tl_pricelist_price',
-				'icon'                => 'system/modules/pricelist/assets/chart_bar.png'
+				'icon'                => 'system/modules/pricelist/assets/price.png'
 			),
 			'copy' => array
 			(
@@ -128,8 +128,8 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 	'palettes' => array
 	(
 		'__selector__'                => array('published'),
-		'default'                     =>   '{title_legend},title,sku;
-                                            {price_legend},price,unit;                                            
+		'default'                     =>   '{title_legend},title,sku,model;
+                                            {price_legend},price,unit,amount;                                                                                      
 											{status_legend},stock,sale;
                                             {description_legend:hide},description;                                            
 											{meta_legend:hide},url;                                            
@@ -181,6 +181,15 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 			'eval'                    => array('mandatory'=>true, 'rgxp'=>'alias','unique'=>true,'maxlength'=>128, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(128) NOT NULL default ''"
 		),
+        'model' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['model'],
+			'exclude'                 => true,
+			'search'                  => true,
+			'inputType'               => 'text',
+			'eval'                    => array('maxlength'=>128, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
+		),
         'price' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['price'],
@@ -193,6 +202,15 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 		'unit' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['unit'],
+			'exclude'                 => true,
+			'search'                  => true,
+			'inputType'               => 'text',
+			'eval'                    => array('maxlength'=>128, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
+		),
+        'amount' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['amount'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
@@ -300,7 +318,7 @@ class tl_pricelist_item extends Backend
 	 */
 	public function generateItemRow($arrRow)
 	{
-		return '<div style="text-align:left;">'. $arrRow['title'] .' <span style="float:right;">'. $arrRow['price'] .'</spa></div>';
+		return '<div style="text-align:left;">['.$arrRow['sku'].'] '. $arrRow['title'] .' <span style="float:right;">'. $arrRow['price'] .'</spa></div>';
 	}
     
     
