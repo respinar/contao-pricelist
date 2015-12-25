@@ -3,7 +3,7 @@
     "description": "Price list module for Contao",
     "keywords": ["contao", "price", "list"],
     "type": "contao-module",
-    "homepage": "https://github.com/respinar/contao-pricelist",
+    "homepage": "http://respinar.com",
     "license": "LGPL-3.0+",
     "authors": [
         {
@@ -20,9 +20,6 @@
         "php": ">=5.3.2",
         "contao/core": ">=3.2,<4-dev",
         "contao-community-alliance/composer-plugin": "~2.0"
-    },
-    "autoload": {
-        "classmap": [""]
     },
     "extra": {
         "contao": {
