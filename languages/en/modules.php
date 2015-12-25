@@ -15,9 +15,9 @@
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['pricelist'] = array('Price List', 'Manage price lists');
+$GLOBALS['TL_LANG']['MOD']['pricelist'] = array('Price List', 'Manage list and prices');
 
 /**
  * Front end modules
  */
-$GLOBALS['TL_LANG']['FMD']['pricelist'] = array('Price list', '');
+$GLOBALS['TL_LANG']['FMD']['pricelist'] = array('Price list', 'Add a price list to page');

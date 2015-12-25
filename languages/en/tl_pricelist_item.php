@@ -16,7 +16,8 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_pricelist_item']['title']        = array('Title', 'Please enter the item title.');
-$GLOBALS['TL_LANG']['tl_pricelist_item']['code']         = array('Code (Model)', 'Please enter the item code or model.');
+$GLOBALS['TL_LANG']['tl_pricelist_item']['sku']          = array('SKU', 'Please enter the item SKU.');
+$GLOBALS['TL_LANG']['tl_pricelist_item']['price']        = array('Price', 'Please enter the Price.');
 $GLOBALS['TL_LANG']['tl_pricelist_item']['unit']         = array('Unit', 'Please enter the unit.');
 $GLOBALS['TL_LANG']['tl_pricelist_item']['stock']        = array('Stock', 'Product exist in stock.');
 $GLOBALS['TL_LANG']['tl_pricelist_item']['sale']         = array('Sale', 'Product is in sale.');
@@ -30,10 +31,10 @@ $GLOBALS['TL_LANG']['tl_pricelist_item']['stop']         = array('Show until', '
 /**
  * Legends
  */
-$GLOBALS['TL_LANG']['tl_pricelist_item']['title_legend']       = 'Title and code';
+$GLOBALS['TL_LANG']['tl_pricelist_item']['title_legend']       = 'Title and SKU';
 $GLOBALS['TL_LANG']['tl_pricelist_item']['status_legend']      = 'Status';
 $GLOBALS['TL_LANG']['tl_pricelist_item']['meta_legend']        = 'Meta';
-$GLOBALS['TL_LANG']['tl_pricelist_item']['unit_legend']        = 'Unit';
+$GLOBALS['TL_LANG']['tl_pricelist_item']['price_legend']       = 'Price and Unit';
 $GLOBALS['TL_LANG']['tl_pricelist_item']['description_legend'] = 'Description';
 $GLOBALS['TL_LANG']['tl_pricelist_item']['publish_legend']     = 'Publish settings';
 
