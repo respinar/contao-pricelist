@@ -23,9 +23,12 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 	(
 		'dataContainer'               => 'Table',
 		'ptable'                      => 'tl_pricelist',
-		'ctable'                      => array('tl_pricelist_price'),
+        'ctable'                      => array ('tl_pricelist_price'),
 		'enableVersioning'            => true,
-		//'onsubmit_callback'           => array('tl_pricelist_item','save_price'),
+		'onsubmit_callback' => array
+        (
+            array('tl_pricelist_item', 'save_price'),
+        ),
 		'sql' => array
 		(
 			'keys' => array
@@ -43,7 +46,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 		(
 			'mode'                    => 4,
 			'fields'                  => array('sorting'),
-			'headerFields'            => array('title'),
+			'headerFields'            => array('title','currency','protected'),
 			'panelLayout'             => 'search,limit',
 			'child_record_callback'   => array('tl_pricelist_item', 'generateItemRow')
 		),
@@ -65,12 +68,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 				'href'                => 'act=edit',
 				'icon'                => 'edit.gif'
 			),
-			'price' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['edit'],
-				'href'                => 'table=tl_pricelist_price',
-				'icon'                => 'system/modules/pricelist/assets/price.png'
-			),
+			
 			'sale' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['sale'],
@@ -84,6 +82,19 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 				'icon'                => 'system/modules/pricelist/assets/stock.png',
 				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleStock(this,%s)"',
 				'button_callback'     => array('tl_pricelist_item', 'iconStock')
+			),
+            'toggle' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['toggle'],
+				'icon'                => 'visible.gif',
+				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
+				'button_callback'     => array('tl_pricelist_item', 'toggleIcon')
+			),
+            'price' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['edit'],
+				'href'                => 'table=tl_pricelist_price',
+				'icon'                => 'system/modules/pricelist/assets/chart_bar.png'
 			),
 			'copy' => array
 			(
@@ -103,14 +114,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 				'href'                => 'act=delete',
 				'icon'                => 'delete.gif',
 				'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
-			),
-			'toggle' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['toggle'],
-				'icon'                => 'visible.gif',
-				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-				'button_callback'     => array('tl_pricelist_item', 'toggleIcon')
-			),
+			),			
 			'show' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_pricelist_item']['show'],
@@ -124,11 +128,11 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 	'palettes' => array
 	(
 		'__selector__'                => array('published'),
-		'default'                     =>   '{title_legend},title,code;
-											{status_legend},sale,stock;
-											{unit_legend},unit;
-											{description_legend:hide},description;
-											{meta_legend:hide},url;
+		'default'                     =>   '{title_legend},title,sku;
+                                            {price_legend},price,unit;                                            
+											{status_legend},stock,sale;
+                                            {description_legend:hide},description;                                            
+											{meta_legend:hide},url;                                            
 											{publish_legend},published'
 	),
 
@@ -168,14 +172,23 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 			'eval'                    => array('mandatory'=>true, 'maxlength'=>128, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
-		'code' => array
+		'sku' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['code'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['sku'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>true, 'rgxp'=>'alias','unique'=>true,'maxlength'=>128, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(128) NOT NULL default ''"
+		),
+        'price' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['price'],
+			'exclude'                 => true,
+			'search'                  => true,
+			'inputType'               => 'text',
+			'eval'                    => array('mandatory'=>true,'maxlength'=>128, 'tl_class'=>'w50'),
+			'sql'                     => "int(10) NULL"
 		),
 		'unit' => array
 		(
@@ -189,6 +202,7 @@ $GLOBALS['TL_DCA']['tl_pricelist_item'] = array
 		'sale' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_pricelist_item']['sale'],
+            'default'                 => false,
 			'exclude'                 => true,
 			'filter'                  => true,
 			'flag'                    => 1,
@@ -286,8 +300,11 @@ class tl_pricelist_item extends Backend
 	 */
 	public function generateItemRow($arrRow)
 	{
-		return '<div style="direction:rtl;text-align:left;">'. $arrRow['title'] .'</div>';
+		return '<div style="text-align:left;">'. $arrRow['title'] .' <span style="float:right;">'. $arrRow['price'] .'</spa></div>';
 	}
+    
+    
+    
 
 	public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
 	{
@@ -471,9 +488,15 @@ class tl_pricelist_item extends Backend
 		$this->createNewVersion('tl_pricelist_item', $intId);
 	}
 
-	public function save_price($dc)
+	public function save_price(DataContainer $dc)
 	{
-		$this->Database->prepare("INSERT INTO tl_pricelist_price (pid,tstamp,price_retail,price_bulk) VALUES (1,NOW,2,3)")->execute;
+        // Return if there is no active record (override all)
+		if (!$dc->activeRecord)
+		{
+			return;
+		}
+
+		$this->Database->execute("INSERT INTO `tl_pricelist_price` (`pid`,`tstamp`,`price`) VALUES (".$dc->activeRecord->id.",NOW(),".$dc->activeRecord->price.")");
 		return;
 	}
 

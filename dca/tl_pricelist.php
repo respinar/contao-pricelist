@@ -23,7 +23,7 @@ $GLOBALS['TL_DCA']['tl_pricelist'] = array
 	(
 
 		'dataContainer'               => 'Table',
-		'ctable'                      => array('tl_pricelist_item'),
+		'ctable'                      => array('tl_pricelist_item'),        
 		'enableVersioning'            => true,
 		'sql' => array
 		(
@@ -186,7 +186,7 @@ class tl_pricelist extends Backend {
         $objChildren = $this->Database->prepare("SELECT COUNT(*) AS count FROM tl_pricelist_item WHERE pid=?")
                 ->execute($row['id']);
 
-        $label .= ' <span style="color:#b3b3b3; padding-left:3px;">' . sprintf('[%s ' . $GLOBALS['TL_LANG']['tl_pricelist']['retail_price'] . ']', $objChildren->count) . '</span>';
+        $label .= ' <span style="color:#b3b3b3;">' . sprintf('[%s]', $objChildren->count) . '</span>';
 
         return $label;
     }
